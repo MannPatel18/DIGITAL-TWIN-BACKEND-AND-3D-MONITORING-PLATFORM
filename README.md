@@ -2,7 +2,7 @@
 ### Civil Infrastructure Real-Time Structural Telemetry & Explainable AI Workstation
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMannPatel18%2FDIGITAL-TWIN-BACKEND-AND-3D-MONITORING-PLATFORM)
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel_Active-00DC82.svg?style=flat&logo=vercel)](https://digitaltwinbackend-3dmonitoringplat.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel_Active-00DC82.svg?style=flat&logo=vercel)](https://frontend-nine-liart-7sispcthji.vercel.app)
 [![IEEE Report](https://img.shields.io/badge/IEEE-Project_Report-00629B.svg?style=flat&logo=ieee)](docs/IEEE_PROJECT_REPORT.md)
 [![React](https://img.shields.io/badge/React-18.2.0-blue.svg?logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue?logo=typescript)](https://www.typescriptlang.org/)
@@ -12,7 +12,8 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C?logo=pytorch)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> 🚀 **Live Interactive Production URL**: **[https://digitaltwinbackend-3dmonitoringplat.vercel.app/](https://digitaltwinbackend-3dmonitoringplat.vercel.app/)**  
+> 🚀 **Live Interactive Production URL**: **[https://frontend-nine-liart-7sispcthji.vercel.app](https://frontend-nine-liart-7sispcthji.vercel.app)**  
+> 🌐 **Alternative Mirror**: [https://digitaltwinbackend-3dmonitoringplat.vercel.app/](https://digitaltwinbackend-3dmonitoringplat.vercel.app/)  
 > 📄 **Academic Research Paper (IEEE Format)**: Read the full paper in [docs/IEEE_PROJECT_REPORT.md](docs/IEEE_PROJECT_REPORT.md) or compile [IEEE_Project_Report.tex](IEEE_Project_Report.tex).  
 > *Equipped with a zero-latency standalone simulation engine: explore 3D WebGL meshes, Grad-CAM attention heatmaps, 100 Hz live FFT vibration waveforms, and export official A4 compliance PDFs directly in your browser without needing local installations.*
 
