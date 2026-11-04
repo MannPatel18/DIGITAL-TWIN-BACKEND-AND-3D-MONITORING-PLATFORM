@@ -248,6 +248,24 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
               <span>Classification: OFFICIAL CIVIL AUDIT • RESTRICTED ACCESS</span>
               <span>Monitoring Mode: Continuous Non-Destructive Telemetry</span>
             </div>
+
+            {/* Project Authors & Engineering Team Banner */}
+            <div className="mt-3 p-2.5 bg-[#F0FDF4] border border-[#BBF7D0] rounded-md flex items-center justify-between text-[10px] font-mono shadow-xs">
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-[#166534] uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#16A34A] animate-pulse"></span>
+                  Engineering Team:
+                </span>
+                <span className="text-[#14532D] font-medium">
+                  <strong className="text-[#101B2A]">Mann Patel</strong> (202451100) &nbsp;•&nbsp; 
+                  <strong className="text-[#101B2A]">Dhrumil Vaghani</strong> (202451165) &nbsp;•&nbsp; 
+                  <strong className="text-[#101B2A]">Ayush Vora</strong> (202451170)
+                </span>
+              </div>
+              <div className="text-[#15803D] font-bold text-[9px] tracking-wider uppercase">
+                IIIT Vadodara
+              </div>
+            </div>
           </header>
 
           {/* Section 1: Executive Asset Summary & Key Compliance Metrics (KPIs) */}
@@ -575,6 +593,16 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
                 </div>
                 <div className="text-[9px] text-[#899EAF]">Cryptographic SHA-256 Hash:</div>
                 <div className="text-[9px] font-mono text-[#101B2A] font-semibold">8f42e91b072c...d901</div>
+              </div>
+            </div>
+
+            {/* Engineering Research Team Credits */}
+            <div className="mt-3 pt-2.5 border-t border-[#CBD5E1] flex items-center justify-between text-[9px] font-mono text-[#4B5763]">
+              <div>
+                <span className="font-bold text-[#101B2A]">Project & Research Team:</span> Mann Patel (202451100), Dhrumil Vaghani (202451165), Ayush Vora (202451170)
+              </div>
+              <div className="font-semibold text-[#166534]">
+                Indian Institute of Information Technology Vadodara (IIITV)
               </div>
             </div>
           </div>
