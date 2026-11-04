@@ -34,6 +34,23 @@ def startup_event():
     seed_components_if_empty()
     seed_initial_inspections()
 
+@app.get("/")
+def root():
+    return {
+        "status": "ONLINE",
+        "service": "Bridge Structural Digital Twin API",
+        "version": "1.0.0",
+        "frontend_app": "http://localhost:3000",
+        "interactive_docs": "http://127.0.0.1:8000/docs",
+        "endpoints": [
+            "/api/health",
+            "/api/summary",
+            "/api/components",
+            "/api/sensors",
+            "/api/inspections"
+        ]
+    }
+
 @app.get("/api/health")
 def health_check():
     return {"status": "ONLINE", "system": "Bridge Digital Twin Engine v1.0"}
