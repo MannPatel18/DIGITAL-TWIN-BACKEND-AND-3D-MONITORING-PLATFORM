@@ -141,6 +141,15 @@ export const ExplainabilityLab: React.FC<ExplainabilityLabProps> = ({
   const gradcamUrl = activeInspection?.gradcamUrl || (activeInspection as any)?.gradcam_url || filePreview || '';
   const isNominal = activeInspection?.damageType === 'NONE' || activeInspection?.severity === 'NOMINAL';
 
+  const resolveImg = (url: string) => {
+    if (!url) return '';
+    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:') || url.startsWith('blob:')) {
+      return url;
+    }
+    const apiBase = (import.meta as any).env?.VITE_API_URL || 'http://localhost:8000';
+    return `${apiBase}${url}`;
+  };
+
   const componentInspections = inspections.filter(i => i.componentId === activeCompId);
   const substructureComponents = components.filter(c => c.category === 'SUBSTRUCTURE');
   const superstructureComponents = components.filter(c => c.category === 'SUPERSTRUCTURE');
@@ -500,7 +509,7 @@ export const ExplainabilityLab: React.FC<ExplainabilityLabProps> = ({
 
                 <div className="relative h-68 sm:h-76 xl:h-84 rounded-xl overflow-hidden bg-[#101B2A] flex items-center justify-center border border-[#263B50] group">
                   <img
-                    src={`http://localhost:8000${imageUrl}`}
+                    src={resolveImg(imageUrl)}
                     alt="Raw optical inspection capture"
                     className="w-full h-full object-contain p-2"
                     onError={(e) => {
@@ -541,7 +550,7 @@ export const ExplainabilityLab: React.FC<ExplainabilityLabProps> = ({
 
                 <div className="relative h-68 sm:h-76 xl:h-84 rounded-xl overflow-hidden bg-[#101B2A] flex items-center justify-center border border-[#263B50] group">
                   <img
-                    src={`http://localhost:8000${gradcamUrl}`}
+                    src={resolveImg(gradcamUrl)}
                     alt="PyTorch Grad-CAM Heatmap"
                     className="w-full h-full object-contain p-2"
                     onError={(e) => {
