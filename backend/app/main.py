@@ -174,22 +174,24 @@ def inspect_component(
     """
     samples_dir = os.path.join(STATIC_DIR, "samples")
     
+    forced_type = None
+    if sample_type in ["CLEAN", "NONE", "NOMINAL", "SOUND"]:
+        forced_type = "NOMINAL"
+    elif sample_type in ["CRACK", "CORROSION"]:
+        forced_type = sample_type
+
     if file and hasattr(file, "filename") and file.filename:
         temp_path = os.path.join(STATIC_DIR, "uploads", f"temp_{file.filename}")
         content = file.file.read()
         with open(temp_path, "wb") as f:
             f.write(content)
         target_image_path = temp_path
-        forced_type = None
+    elif sample_type in ["CLEAN", "NONE", "NOMINAL", "SOUND"]:
+        target_image_path = os.path.join(samples_dir, "pier2_clean_surface.jpg")
     elif sample_type == "CORROSION":
         target_image_path = os.path.join(samples_dir, "deck_steel_corrosion.jpg")
-        forced_type = "CORROSION"
-    elif sample_type == "CLEAN":
-        target_image_path = os.path.join(samples_dir, "pier2_clean_surface.jpg")
-        forced_type = "NONE"
     else:
         target_image_path = os.path.join(samples_dir, "pier1_fatigue_crack.jpg")
-        forced_type = "CRACK"
 
     if not os.path.exists(target_image_path):
         generate_procedural_textures()

@@ -94,13 +94,31 @@ class DefectDetector:
                     best_box = box
                     best_crop = crop_img
 
+        # Check if image is outdoor architecture (sky present)
+        arr = np.array(img)
+        r, g, b = arr[:,:,0].astype(float), arr[:,:,1].astype(float), arr[:,:,2].astype(float)
+        is_sky = (b > 115) & (b > r * 1.05) & (b > g * 0.92)
+        sky_ratio = float(np.sum(is_sky)) / float(width * height)
+        is_outdoor = sky_ratio > 0.08
+
         if forced_type:
             pred_class = forced_type
-            confidence = 0.95
-        elif max_crack_prob > 0.48:
+            confidence = 0.96
+        elif is_outdoor:
+            # In outdoor architecture (bridges, underpasses, pylons), expansion joints and deck silhouettes are NOT cracks
+            if global_probs is not None and float(global_probs[1]) > 0.82 and max_crack_prob > 0.85:
+                pred_class = "CRACK"
+                confidence = float(global_probs[1])
+            else:
+                pred_class = "NOMINAL"
+                confidence = float(global_probs[0]) if global_probs is not None else 0.98
+        elif global_probs is not None and float(global_probs[1]) > 0.52:
+            pred_class = "CRACK"
+            confidence = float(global_probs[1])
+        elif max_crack_prob > 0.65 and (global_probs is None or float(global_probs[0]) < 0.40):
             pred_class = "CRACK"
             confidence = max_crack_prob
-        elif max_corrosion_prob > 0.60:
+        elif max_corrosion_prob > 0.65:
             pred_class = "CORROSION"
             confidence = max_corrosion_prob
         else:
@@ -190,18 +208,20 @@ class DefectDetector:
                 bbox = {"x": width//4, "y": height//4, "width": width//2, "height": height//2}
                 explainability_score = 0.88
 
-            # Continuous quantitative defect measurement from neural activation energy
-            mean_energy = float(np.mean(cam_np))
-            high_cells = float(np.sum(cam_np > 0.55)) / 49.0
-            vhigh_cells = float(np.sum(cam_np > 0.75)) / 49.0
+            # Direct monotonic quantitative defect measurement
+            span_px = float(np.sqrt(bbox["width"] ** 2 + bbox["height"] ** 2))
+            crack_length_mm = round(max(35.0, min(650.0, span_px * 0.45)), 1)
+            
+            active_px = float(np.sum(active_mask))
+            defect_area_cm2 = round(max(5.0, min(180.0, active_px * 0.0025)), 1)
 
-            crack_length_mm = round(45.0 + high_cells * 650.0 + vhigh_cells * 400.0, 1)
-            defect_area_cm2 = round(8.0 + mean_energy * 180.0 + vhigh_cells * 90.0, 1)
-
-            # Continuous Health Score on full 1 to 100 scale
-            severity_idx = min(1.0, max(0.05, 0.55 * (high_cells / 0.8) + 0.45 * (mean_energy / 0.75)))
-            penalty = 14.0 + 72.0 * (severity_idx ** 1.1) * confidence
-            measured_health = max(6.0, min(92.0, round(96.0 - penalty, 1)))
+            # Strictly monotonic health scale:
+            # When error in mm is big -> health score is low!
+            # When error in mm is small -> health score is high!
+            # Scale from crack_length_mm (35mm to 650mm) down from 88.0 to 18.0:
+            length_norm = (crack_length_mm - 35.0) / (650.0 - 35.0)
+            health_penalty = length_norm * 68.0
+            measured_health = round(max(18.0, min(88.0, 88.0 - health_penalty)), 1)
 
             if measured_health >= 75.0:
                 severity = "MINOR"

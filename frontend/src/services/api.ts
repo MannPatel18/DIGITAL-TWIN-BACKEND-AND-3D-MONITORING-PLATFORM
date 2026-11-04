@@ -579,12 +579,17 @@ export function analyzeImageAndSynthesizeGradCam(
           };
         } else if (totalCrackCandidates >= crackThresholdTotal && maxCellCrackCount >= crackThresholdCell) {
           damageType = 'CRACK';
-          severity = 'CRITICAL';
-          healthScore = Math.max(56.0, Math.min(66.0, Math.round((66.0 - (maxCellCrackCount / 1600) * 180) * 10) / 10));
+          crackLengthMm = Math.max(35.0, Math.min(650.0, Math.round((40.0 + totalCrackCandidates * 0.95) * 10) / 10));
+          defectAreaCm2 = Math.max(5.0, Math.min(180.0, Math.round((8.0 + totalCrackCandidates * 0.18) * 10) / 10));
+
+          // Strictly monotonic health scale:
+          // When crack error in mm is big -> health score is low!
+          // When crack error in mm is small -> health score is high!
+          const lengthNorm = (crackLengthMm - 35.0) / (650.0 - 35.0);
+          healthScore = Math.round(Math.max(18.0, Math.min(88.0, 88.0 - lengthNorm * 68.0)) * 10) / 10;
+          severity = healthScore >= 65.0 ? 'MODERATE' : 'CRITICAL';
           confidence = Math.min(0.988, Number((0.93 + (maxCellCrackCount / 1600) * 0.8).toFixed(3)));
           explainabilityScore = 0.952;
-          crackLengthMm = Math.max(8.5, Math.round((12.0 + totalCrackCandidates * 0.12) * 10) / 10);
-          defectAreaCm2 = Math.max(2.0, Math.round((3.0 + totalCrackCandidates * 0.015) * 10) / 10);
 
           if (hottestCellIdx >= 0 && cellCrackCounts[hottestCellIdx] > 0) {
             centroidXNorm = (cellCrackXSum[hottestCellIdx] / cellCrackCounts[hottestCellIdx]) / aW;
