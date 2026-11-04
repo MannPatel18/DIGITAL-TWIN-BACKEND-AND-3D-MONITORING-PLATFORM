@@ -418,6 +418,18 @@ The proposed digital twin solves five persistent civil engineering challenges:
     \item \textbf{Eliminating Heavy Local Software Barriers}: Native edge deployment on Vercel with automatic client simulation fallbacks allows engineers to inspect the complete 3D digital twin from any standard web browser without installing specialized CAD or desktop FEM software.
 \end{enumerate}
 
+\subsection{Generalization to Other Structural Assets and Critical Infrastructure}
+The multi-modal digital twin architecture developed in this research is asset-agnostic and generalizes directly to a broad spectrum of safety-critical civil, energy, and aerospace infrastructure:
+\begin{enumerate}
+    \item \textbf{Offshore and Onshore Wind Turbines}: Tri-axial accelerometers monitor blade passing frequencies (1P/3P modal harmonics) and tower sway, while drone-captured optical frames are evaluated using Grad-CAM to detect leading-edge blade erosion, composite delamination, and lightning strike punctures, projected onto 3D rotating CAD meshes.
+    \item \textbf{Hydraulic Concrete Dams and Spillways}: Piezometers and crest accelerometers feed the dynamic FFT modal engine to detect hydrostatic shear softening and seismic responses, while drone cameras inspect spillway concrete cavitation, alkali-aggregate reaction (AAR) cracking, and seepage paths.
+    \item \textbf{Railway and Highway Tunnels}: High-speed train passage vibrations and seismic ground settlement are tracked in real time. Continuous camera arrays on inspection train cars detect concrete lining spalling, water leaks, and crown fissures, projected onto an unwrapped 3D cylindrical tunnel model.
+    \item \textbf{Aerospace Fuselages and Airframes}: High-cycle aerodynamic flutter and acoustic fatigue are monitored via distributed surface accelerometers. High-resolution non-destructive optical and eddy-current inspection frames detect rivet line micro-cracking and composite skin debonding for automated FAA airworthiness compliance.
+    \item \textbf{Tall Skyscrapers and Commercial Towers}: Rooftop accelerometers and tuned mass damper (TMD) transducers monitor wind-induced sway, drift ratios, and seismic modal frequency drop ($\Delta f$). UAV facade scans inspect curtain-wall glass delamination, structural steel joint corrosion, and seismic concrete core cracking.
+    \item \textbf{Nuclear Containment Domes and Cooling Towers}: Long-term concrete creep, thermal stress cycling, and post-tensioning cable loss are tracked dynamically. Optical cameras detect exterior containment shell micro-fissures and pipe rack oxidation, producing automated ASME Boiler and Pressure Vessel Code (BPVC) compliance records.
+    \item \textbf{Marine Vessels and Offshore Oil Rigs}: Wave-slap hydrodynamic fatigue and hull girder bending moments are decomposed in real time, while underwater crawler cameras and aerial drones localize splash-zone oxidation and tubular joint fatigue cracks for ABS/DNV maritime compliance.
+\end{enumerate}
+
 \subsection{Limitations}
 Current limitations include: (1) accelerometer data is synthetically superposed with stochastic noise in development mode; (2) UAV optical raycasting assumes planar local geometry, which can introduce minor parallax error on curved stay-cable sheaves; and (3) real-world ambient temperature gradients require additional baseline thermal compensation filtering.
 
