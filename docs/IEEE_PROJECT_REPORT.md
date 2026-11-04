@@ -1,8 +1,12 @@
 # Multi-Modal Structural Health Monitoring Digital Twin
 ## Integrating 100 Hz Dynamic Vibration Telemetry, Interactive WebGL Finite Element Modeling, and ResNet-18 Grad-CAM Explainable Defect Localization
 
-**Author:** Mann Patel  
-**Department:** Department of Civil and Computer Engineering  
+**Authors:**
+- **Man Patel** (Student ID: 202451100)
+- **Dhrumil Vaghani** (Student ID: 202451165)
+- **Ayush Vora** (Student ID: 202451170)
+
+**Department:** Department of Computer Science & Engineering  
 **Project GitHub Repository:** [https://github.com/MannPatel18/DIGITAL-TWIN-BACKEND-AND-3D-MONITORING-PLATFORM](https://github.com/MannPatel18/DIGITAL-TWIN-BACKEND-AND-3D-MONITORING-PLATFORM)  
 **Live Production Platform:** [https://digitaltwinbackend-3dmonitoringplat.vercel.app/](https://digitaltwinbackend-3dmonitoringplat.vercel.app/)  
 **Standard Format:** IEEE Conference Format (2-Column Standard)
