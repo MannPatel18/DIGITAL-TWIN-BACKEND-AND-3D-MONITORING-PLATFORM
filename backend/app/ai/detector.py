@@ -188,12 +188,21 @@ class DefectDetector:
         else:
             # Crack or Corrosion
             damage_type = pred_class
-            active_mask = cam_upsampled > 0.40
+
+            # Use active CAM activation + fissure dark pixels to capture full branching defect network:
+            gray_arr = np.array(img.convert('L'))
+            mean_gray = float(np.mean(gray_arr))
+            fissure_pixels = gray_arr < (mean_gray - 25)
+
+            active_mask = (cam_upsampled > 0.22) | ((cam_upsampled > 0.08) & fissure_pixels)
+            if not np.any(active_mask):
+                active_mask = cam_upsampled > 0.25
+
             if np.any(active_mask):
                 y_idx, x_idx = np.where(active_mask)
                 min_x, max_x = int(np.min(x_idx)), int(np.max(x_idx))
                 min_y, max_y = int(np.min(y_idx)), int(np.max(y_idx))
-                pad = int(min(width, height) * 0.04)
+                pad = int(min(width, height) * 0.03)
                 bbox = {
                     "x": max(0, min_x - pad),
                     "y": max(0, min_y - pad),
@@ -208,20 +217,19 @@ class DefectDetector:
                 bbox = {"x": width//4, "y": height//4, "width": width//2, "height": height//2}
                 explainability_score = 0.88
 
-            # Direct monotonic quantitative defect measurement
+            # Physical Defect Quantification:
             span_px = float(np.sqrt(bbox["width"] ** 2 + bbox["height"] ** 2))
-            crack_length_mm = round(max(35.0, min(650.0, span_px * 0.45)), 1)
+            crack_length_mm = round(max(35.0, min(650.0, span_px * 0.52)), 1)
             
             active_px = float(np.sum(active_mask))
-            defect_area_cm2 = round(max(5.0, min(180.0, active_px * 0.0025)), 1)
+            defect_area_cm2 = round(max(5.0, min(220.0, active_px * 0.0028)), 1)
 
-            # Strictly monotonic health scale:
-            # When error in mm is big -> health score is low!
-            # When error in mm is small -> health score is high!
-            # Scale from crack_length_mm (35mm to 650mm) down from 88.0 to 18.0:
-            length_norm = (crack_length_mm - 35.0) / (650.0 - 35.0)
-            health_penalty = length_norm * 68.0
-            measured_health = round(max(18.0, min(88.0, 88.0 - health_penalty)), 1)
+            # Combined Length & Area Structural Damage Degradation Formula:
+            # Multi-branch spiderweb / alligator cracking with large defect area properly penalized:
+            length_penalty = (crack_length_mm / 500.0) * 42.0
+            area_penalty = (defect_area_cm2 / 120.0) * 40.0
+            total_penalty = length_penalty + area_penalty
+            measured_health = round(max(15.0, min(88.0, 94.0 - total_penalty)), 1)
 
             if measured_health >= 75.0:
                 severity = "MINOR"

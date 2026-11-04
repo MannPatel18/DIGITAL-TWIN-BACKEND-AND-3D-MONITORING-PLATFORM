@@ -580,13 +580,13 @@ export function analyzeImageAndSynthesizeGradCam(
         } else if (totalCrackCandidates >= crackThresholdTotal && maxCellCrackCount >= crackThresholdCell) {
           damageType = 'CRACK';
           crackLengthMm = Math.max(35.0, Math.min(650.0, Math.round((40.0 + totalCrackCandidates * 0.95) * 10) / 10));
-          defectAreaCm2 = Math.max(5.0, Math.min(180.0, Math.round((8.0 + totalCrackCandidates * 0.18) * 10) / 10));
+          defectAreaCm2 = Math.max(5.0, Math.min(220.0, Math.round((8.0 + totalCrackCandidates * 0.28) * 10) / 10));
 
-          // Strictly monotonic health scale:
-          // When crack error in mm is big -> health score is low!
-          // When crack error in mm is small -> health score is high!
-          const lengthNorm = (crackLengthMm - 35.0) / (650.0 - 35.0);
-          healthScore = Math.round(Math.max(18.0, Math.min(88.0, 88.0 - lengthNorm * 68.0)) * 10) / 10;
+          // Combined Length & Area Structural Damage Degradation Formula:
+          const lengthPenalty = (crackLengthMm / 500.0) * 42.0;
+          const areaPenalty = (defectAreaCm2 / 120.0) * 40.0;
+          const totalPenalty = lengthPenalty + areaPenalty;
+          healthScore = Math.round(Math.max(15.0, Math.min(88.0, 94.0 - totalPenalty)) * 10) / 10;
           severity = healthScore >= 65.0 ? 'MODERATE' : 'CRITICAL';
           confidence = Math.min(0.988, Number((0.93 + (maxCellCrackCount / 1600) * 0.8).toFixed(3)));
           explainabilityScore = 0.952;
