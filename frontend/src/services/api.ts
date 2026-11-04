@@ -552,8 +552,14 @@ export function analyzeImageAndSynthesizeGradCam(
         bboxNorm = { x: 0.30, y: 0.25, w: 0.40, h: 0.45 };
       } else {
         // 'AUTO' Mode: Intelligent Multi-Head Model Prediction
-        // Real rust must be a localized anomaly covering between 2% and 22% of image:
-        if (rustRatio >= 0.020 && rustRatio <= 0.22) {
+        const isOutdoorScenery = (skyPixelCount / totalPixels) > 0.10;
+
+        // In outdoor bridge landscape photos with sky and cables, cables are structural geometry, not fissures!
+        const crackThresholdTotal = isOutdoorScenery ? 200 : 110;
+        const crackThresholdCell = isOutdoorScenery ? 75 : 48;
+
+        // Real rust must be a localized anomaly on non-sky structural components:
+        if (!isOutdoorScenery && rustRatio >= 0.030 && rustRatio <= 0.20) {
           damageType = 'CORROSION';
           severity = rustRatio > 0.09 ? 'CRITICAL' : 'MODERATE';
           healthScore = Math.max(72.0, Math.min(84.0, Math.round((82.0 - rustRatio * 60) * 10) / 10));
@@ -571,7 +577,7 @@ export function analyzeImageAndSynthesizeGradCam(
             w: Math.min(0.9, (rustMaxX - rustMinX) / aW + 0.1),
             h: Math.min(0.9, (rustMaxY - rustMinY) / aH + 0.1),
           };
-        } else if (totalCrackCandidates >= 60 && maxCellCrackCount >= 32) {
+        } else if (totalCrackCandidates >= crackThresholdTotal && maxCellCrackCount >= crackThresholdCell) {
           damageType = 'CRACK';
           severity = 'CRITICAL';
           healthScore = Math.max(56.0, Math.min(66.0, Math.round((66.0 - (maxCellCrackCount / 1600) * 180) * 10) / 10));
