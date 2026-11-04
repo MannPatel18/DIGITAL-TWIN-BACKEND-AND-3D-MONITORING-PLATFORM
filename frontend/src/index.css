@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #101B2A;
+  color: #F1F5F8;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code, .font-mono {
+  font-family: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  font-feature-settings: 'tnum' on, 'zero' on;
+}
+
+/* Premium Technical Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #101B2A;
+}
+::-webkit-scrollbar-thumb {
+  background: #263B50;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #30485E;
+}
+
+/* Print Styles for Executive Compliance Report */
+@media print {
+  @page {
+    margin: 8mm 10mm 10mm 10mm;
+    size: A4 portrait;
+  }
+  html, body {
+    background-color: #ffffff !important;
+    color: #101B2A !important;
+    font-size: 10pt !important;
+    user-select: auto !important;
+    overflow: visible !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .print\:hidden {
+    display: none !important;
+  }
+  .print-page {
+    background: #ffffff !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    color: #101B2A !important;
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+  .print-page:last-child {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+  .print-avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+  thead {
+    display: table-header-group !important;
+  }
+  tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  th, td {
+    color: #101B2A !important;
+    border-color: #CBD5E1 !important;
+  }
+}
