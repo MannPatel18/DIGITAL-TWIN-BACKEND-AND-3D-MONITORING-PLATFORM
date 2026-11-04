@@ -266,6 +266,13 @@ Sound Structural Surface & 1,400 &   350 & 14.1\% \\ \midrule
 \end{tabular}
 \end{table}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig4_defect_distribution.png}
+\caption{Inspection image dataset distribution: (a) sample counts across training and validation splits; (b) proportional defect class share.}
+\label{fig:dataset_dist}
+\end{figure}
+
 \subsection{Model Baseline Comparisons}
 To benchmark optical diagnostic efficacy, we compare ResNet-18 against three baseline computer vision architectures:
 \begin{itemize}
@@ -297,6 +304,13 @@ ViT-B/16       & \textbf{95.68\%} & \textbf{0.9341} & \textbf{0.9412} & \textbf{
 
 While Vision Transformer (ViT-B/16) achieves slightly higher accuracy (95.68\%), its inference latency (58.7~ms) is prohibitive for real-time edge processing. ResNet-18 delivers the optimal trade-off: 95.14\% accuracy, 0.9892 ROC-AUC, and an ultra-fast 12.5~ms inference latency, making it the most practical architecture for inline digital twin operation.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig5_model_comparison.png}
+\caption{Performance comparison of candidate computer vision architectures across Accuracy, F1-macro, and Recall metrics.}
+\label{fig:model_comp}
+\end{figure}
+
 \subsection{Per-Class Defect Localization & Saliency Fidelity}
 Table~\ref{tab:perclass} presents detailed per-category metrics for ResNet-18. Concrete Fatigue Cracks achieve 95.42\% precision with a 0.824 Mean IoU localization score when compared against ground-truth defect bounding polygons.
 
@@ -316,6 +330,20 @@ Sound Structural Surface & 0.9615 & 0.9540 & 0.9577 & 0.887 \\ \midrule
 
 Grad-CAM heatmaps concentrated over 88.4\% of total saliency density directly within actual crack fissure boundaries, suppressing background image artifacts caused by concrete weathering and moisture staining.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig6_confusion_matrix.png}
+\caption{ResNet-18 confusion matrix evaluated on 2,490 validation images: (a) raw prediction counts; (b) row-normalized classification probabilities.}
+\label{fig:conf_mat}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/fig7_roc_curves.png}
+\caption{Per-class Receiver Operating Characteristic (ROC) curves of the proposed ResNet-18 diagnostic engine.}
+\label{fig:roc}
+\end{figure}
+
 \subsection{Dynamic Vibration & Modal Stiffness Analysis}
 The 100~Hz dynamic telemetry pipeline was tested under simulated traffic passages. Table~\ref{tab:vibration} reports nominal and observed modal parameters across all three transducer stations.
 
@@ -334,6 +362,20 @@ $S_3$: Pillar 2 Base    & 3.20~Hz & 3.18~Hz & 0.02~Hz & Nominal ($98.7\%$ $K$) \
 
 At Mid-Span Deck ($S_2$), the FFT engine detected a $0.37$~Hz resonant frequency drop (from $1.85$~Hz to $1.48$~Hz), corresponding to an estimated $36.0\%$ localized flexural stiffness reduction ($\Delta K/K_0$). This successfully triggered Algorithm~\ref{alg:policy} to issue an automated Structural Repair warning flag.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig2_vibration_waveform.png}
+\caption{Dynamic 100~Hz acceleration time-series: (a) nominal baseline response at Pillar 1 Base ($S_1$); (b) fatigue softened response at Mid-Span Deck ($S_2$).}
+\label{fig:waveform}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig3_fft_spectrum.png}
+\caption{Online FFT Power Spectral Density (PSD) decomposition identifying modal resonant frequency degradation $\Delta f = 0.37$~Hz at Mid-Span Deck.}
+\label{fig:fft_spectrum}
+\end{figure}
+
 \subsection{System Latency and WebGL Rendering Throughput}
 System throughput was benchmarked on standard client workstations:
 \begin{itemize}
@@ -341,6 +383,13 @@ System throughput was benchmarked on standard client workstations:
     \item \textbf{WebSocket Telemetry Jitter}: Mean packet delivery latency $< 8.2$~ms at 100~Hz transmission frequency.
     \item \textbf{Memory Allocation}: Constant $142$~MB heap footprint over continuous 4-hour operational sessions.
 \end{itemize}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig8_component_health_bci.png}
+\caption{Component-level structural condition index ratings and regulatory AASHTO condition state classifications.}
+\label{fig:component_bci}
+\end{figure}
 
 % ==================== SECTION VII: DISCUSSION ====================
 \section{Discussion and Limitations}
