@@ -53,6 +53,10 @@ export const ExplainabilityLab: React.FC<ExplainabilityLabProps> = ({
   );
 
   useEffect(() => {
+    // Preserve active custom inspection if user just diagnosed a custom upload
+    if (activeInspection && activeInspection.componentId === activeCompId && (activeInspection.imageUrl.startsWith('data:') || activeInspection.imageUrl.startsWith('blob:'))) {
+      return;
+    }
     const match = inspections.find(i => i.componentId === activeCompId);
     if (match) {
       setActiveInspection(match);
