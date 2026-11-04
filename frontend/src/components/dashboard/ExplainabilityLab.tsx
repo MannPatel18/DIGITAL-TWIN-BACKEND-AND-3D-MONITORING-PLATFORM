@@ -44,6 +44,7 @@ export const ExplainabilityLab: React.FC<ExplainabilityLabProps> = ({
   const activeComponent = components.find(c => c.id === activeCompId) || components[0];
 
   const [selectedSample, setSelectedSample] = useState<string>('CRACK');
+  const [aiEvaluationTarget, setAiEvaluationTarget] = useState<'AUTO' | 'CLEAN' | 'CRACK' | 'CORROSION'>('AUTO');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -103,10 +104,11 @@ export const ExplainabilityLab: React.FC<ExplainabilityLabProps> = ({
   const handleRunDiagnosis = async () => {
     try {
       setAnalyzing(true);
+      const targetMode = uploadedFile ? aiEvaluationTarget : selectedSample;
       const res = await inspectComponent(
         activeCompId,
         uploadedFile || undefined,
-        uploadedFile ? undefined : selectedSample
+        targetMode
       );
 
       if (res && res.inspection) {
@@ -351,36 +353,96 @@ export const ExplainabilityLab: React.FC<ExplainabilityLabProps> = ({
               />
 
               {uploadedFile ? (
-                <div className="flex items-center justify-between gap-2.5 text-left">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    {filePreview ? (
-                      <img
-                        src={filePreview}
-                        alt="Uploaded preview"
-                        className="w-9 h-9 rounded-lg object-cover border border-[#263B50] shrink-0"
-                      />
-                    ) : (
-                      <div className="w-9 h-9 rounded-lg bg-[#19283A] border border-[#263B50] flex items-center justify-center shrink-0">
-                        <ImageIcon className="w-4 h-4 text-[#28A6A0]" />
-                      </div>
-                    )}
-                    <div className="min-w-0">
-                      <div className="text-[11px] font-bold text-[#F1F5F8] truncate">
-                        {uploadedFile.name}
-                      </div>
-                      <div className="text-[9px] font-mono text-[#28A6A0]">
-                        {(uploadedFile.size / 1024).toFixed(1)} KB • Custom Capture
+                <div>
+                  <div className="flex items-center justify-between gap-2.5 text-left">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      {filePreview ? (
+                        <img
+                          src={filePreview}
+                          alt="Uploaded preview"
+                          className="w-9 h-9 rounded-lg object-cover border border-[#263B50] shrink-0"
+                        />
+                      ) : (
+                        <div className="w-9 h-9 rounded-lg bg-[#19283A] border border-[#263B50] flex items-center justify-center shrink-0">
+                          <ImageIcon className="w-4 h-4 text-[#28A6A0]" />
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <div className="text-[11px] font-bold text-[#F1F5F8] truncate">
+                          {uploadedFile.name}
+                        </div>
+                        <div className="text-[9px] font-mono text-[#28A6A0]">
+                          {(uploadedFile.size / 1024).toFixed(1)} KB • Custom Capture
+                        </div>
                       </div>
                     </div>
+
+                    <button
+                      onClick={handleClearUploadedFile}
+                      title="Remove custom photo"
+                      className="p-1 rounded-lg text-[#899EAF] hover:text-[#DF6964] hover:bg-[#19283A] transition-colors shrink-0"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
 
-                  <button
-                    onClick={handleClearUploadedFile}
-                    title="Remove custom photo"
-                    className="p-1 rounded-lg text-[#899EAF] hover:text-[#DF6964] hover:bg-[#19283A] transition-colors shrink-0"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
+                  {/* Diagnostic Evaluation Target Selector */}
+                  <div className="mt-3 pt-2.5 border-t border-[#263B50] text-left">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[9px] font-mono uppercase text-[#899EAF] font-bold">
+                        Diagnostic Evaluation Target:
+                      </span>
+                      <span className="text-[9px] font-mono font-bold text-[#28A6A0]">
+                        {aiEvaluationTarget === 'AUTO' ? 'Auto AI Multi-Head' : aiEvaluationTarget}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-4 gap-1">
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); setAiEvaluationTarget('AUTO'); }}
+                        className={`py-1 px-1.5 rounded text-[10px] font-mono font-bold border transition-all text-center ${
+                          aiEvaluationTarget === 'AUTO'
+                            ? 'border-[#28A6A0] bg-[#28A6A0]/25 text-[#28A6A0]'
+                            : 'border-[#263B50] bg-[#101B2A] text-[#899EAF] hover:text-[#F1F5F8]'
+                        }`}
+                      >
+                        Auto
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); setAiEvaluationTarget('CLEAN'); }}
+                        className={`py-1 px-1.5 rounded text-[10px] font-mono font-bold border transition-all text-center ${
+                          aiEvaluationTarget === 'CLEAN'
+                            ? 'border-[#43B58A] bg-[#43B58A]/25 text-[#43B58A]'
+                            : 'border-[#263B50] bg-[#101B2A] text-[#899EAF] hover:text-[#F1F5F8]'
+                        }`}
+                      >
+                        Sound
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); setAiEvaluationTarget('CRACK'); }}
+                        className={`py-1 px-1.5 rounded text-[10px] font-mono font-bold border transition-all text-center ${
+                          aiEvaluationTarget === 'CRACK'
+                            ? 'border-[#DF6964] bg-[#DF6964]/25 text-[#DF6964]'
+                            : 'border-[#263B50] bg-[#101B2A] text-[#899EAF] hover:text-[#F1F5F8]'
+                        }`}
+                      >
+                        Crack
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); setAiEvaluationTarget('CORROSION'); }}
+                        className={`py-1 px-1.5 rounded text-[10px] font-mono font-bold border transition-all text-center ${
+                          aiEvaluationTarget === 'CORROSION'
+                            ? 'border-[#E0B653] bg-[#E0B653]/25 text-[#E0B653]'
+                            : 'border-[#263B50] bg-[#101B2A] text-[#899EAF] hover:text-[#F1F5F8]'
+                        }`}
+                      >
+                        Rust
+                      </button>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <label htmlFor="photo-upload" className="cursor-pointer block">
