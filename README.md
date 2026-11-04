@@ -2,7 +2,7 @@
 ### Civil Infrastructure Real-Time Structural Telemetry & Explainable AI Workstation
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMannPatel18%2FDIGITAL-TWIN-BACKEND-AND-3D-MONITORING-PLATFORM)
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel_Preview-00DC82.svg?style=flat&logo=vercel)](https://digital-twin-backend-and-3d-monitoring-platform.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel_Active-00DC82.svg?style=flat&logo=vercel)](https://digitaltwinbackend-3dmonitoringplat.vercel.app/)
 [![React](https://img.shields.io/badge/React-18.2.0-blue.svg?logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Three.js](https://img.shields.io/badge/Three.js-r160-black?logo=three.js)](https://threejs.org/)
@@ -11,7 +11,7 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C?logo=pytorch)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> 🚀 **Live Interactive Demo**: [https://digital-twin-backend-and-3d-monitoring-platform.vercel.app](https://digital-twin-backend-and-3d-monitoring-platform.vercel.app)  
+> 🚀 **Live Interactive Production URL**: **[https://digitaltwinbackend-3dmonitoringplat.vercel.app/](https://digitaltwinbackend-3dmonitoringplat.vercel.app/)**  
 > *Equipped with a zero-latency standalone simulation engine: explore 3D WebGL meshes, Grad-CAM attention heatmaps, 100 Hz live FFT vibration waveforms, and export official A4 compliance PDFs directly in your browser without needing local installations.*
 
 An enterprise-grade **Structural Health Monitoring (SHM) Digital Twin** for cable-stayed bridge infrastructure. The platform pairs interactive 3D WebGL finite-element visualization with real-time multi-channel accelerometer telemetry and deep computer-vision defect localization powered by PyTorch ResNet-18 and Grad-CAM saliency mapping.
