@@ -486,10 +486,10 @@ export const ExplainabilityLab: React.FC<ExplainabilityLabProps> = ({
                     )}
                   </div>
                 </div>
-                <div className="text-[10px] text-[#899EAF] font-mono mt-1">
-                  {isNominal
+                <div className="text-[10px] text-[#899EAF] font-mono mt-1 max-w-lg lg:text-right">
+                  {activeInspection.notes || (isNominal
                     ? 'Concrete integrity fully intact within permissible structural threshold.'
-                    : 'Classified defect exceeds structural tolerance. Remediation advised.'}
+                    : 'Classified defect exceeds structural tolerance. Remediation advised.')}
                 </div>
               </div>
             </div>
